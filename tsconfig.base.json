@@ -1,0 +1,45 @@
+{
+  "compilerOptions": {
+    "allowJs": true,
+    "allowSyntheticDefaultImports": true,
+    "baseUrl": "./src",
+    "declaration": true,
+    "esModuleInterop": true,
+    "jsx": "react",
+    "inlineSourceMap": false,
+    "lib": [
+      "esnext",
+      "DOM"
+    ],
+    "listEmittedFiles": false,
+    "listFiles": false,
+    "moduleResolution": "node10",
+    "noFallthroughCasesInSwitch": true,
+    "pretty": true,
+    "resolveJsonModule": true,
+    "rootDir": "src",
+    "skipLibCheck": true,
+    "strict": true,
+    "traceResolution": false,
+    "types": [
+      "react"
+    ],
+    "paths": {
+      "lib/*": [
+        "lib/*"
+      ],
+      "hooks/*": [
+        "hooks/*"
+      ]
+    }
+  },
+  "compileOnSave": false,
+  "exclude": [
+    "node_modules",
+    "dist",
+    "test"
+  ],
+  "include": [
+    "src"
+  ]
+}
