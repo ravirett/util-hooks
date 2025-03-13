@@ -17,6 +17,7 @@ Just a hook that wraps [js-cookie](https://github.com/js-cookie/js-cookie), maki
 
 *Returned API*
 >`cookie` is the returned value of the cookie
+>
 >`updateCookie()`will update that value if supplied, or delete the cookie if no argument is supplied 
 
 ### useInViewport
@@ -33,12 +34,16 @@ SSR-safe hooks to enable easy access/manipulation of local and session storage A
 
 *Arguments*
 >`key` is the key name of the storage entry
+>
 >`initialValue` is an optional initial (JSON-serialiable) value, used if the key isn't present
+>
 >`saveInitial`, if true, will force the initialValue to overwrite the present value of the key regardless of value
 
 *Returned API*
 >`storedValue` is the value from storage, after being JSON-parsed.
+>
 >`setValue` takes a string or number (or function whose return value) which is JSON-serializable, and updates the stored value.
+>
 >`deleteValue` deletes the entire key from storage.
 
 ### usePortal
@@ -55,6 +60,7 @@ Another simple hook which enables easy use of timeouts.
 
 *Arguments*
 >`callback` is the function which runs when the timeout expires
+>
 >`delay` is the amount onf milliseconds to wait before expiration
 
 *Returned API*
@@ -68,13 +74,16 @@ This hook is meant to easily return details about the browser window. Value chan
 
 *Returned API*
 >`size` returns the width and height of the window. These are undefined by default, to gracefully handle SSR
+>
 >`position` returns the top and left offsets of the window. Default to undefined like size.
 
 ## Building
 Building the project is easy.
 
 >`git clone ...`
+>
 >`pnpm i`
+>
 >`pnpm build`
 
 **Bundles are emitted in ESM and CJS formats, for your convenience**
