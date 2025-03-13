@@ -7,12 +7,14 @@ This is just a collection of utility hooks that I've found useful throughout my 
 This hook tracks the current and directly previous active elements within the browser. Why the previous element? Because sometimes you need to click on an element and know what was active directly before focus shifted. Changes are tracked via a window listener on `focusin`. In the case `document` isn't available, both properties return `null` and no attempt to register listeners occurs.
 
 **Usage**
+
 `const {activeElement: Element|null, previousActiveElement: Element|null} = useActiveElement();`
 
 ### useCookie
 Just a hook that wraps [js-cookie](https://github.com/js-cookie/js-cookie), making it easy to read and manipulate cookies. This will be refactored to remove the dependency once [CookieStore](https://developer.mozilla.org/en-US/docs/Web/API/CookieStore) is better supported.
 
 **Usage**
+
 `const [cookie: string|null, updateCookie?: (string) => void] = useCookie(key: string, defaultValue?: string, options?: `[CookieAttributes](https://github.com/DefinitelyTyped/DefinitelyTyped/blob/master/types/js-cookie/index.d.ts)`)`
 
 *Returned API*
@@ -24,12 +26,14 @@ Just a hook that wraps [js-cookie](https://github.com/js-cookie/js-cookie), maki
 A simple hook that uses [Intersection Observers](https://developer.mozilla.org/en-US/docs/Web/API/Intersection_Observer_API) to determine if a given element is currently within the viewport.
 
 **Usage**
+
 `const isIntersecting: boolean = useInViewport(ref: React.RefObject<HTMLElement>)`
 
 ### useLocalStorage / useSessionStorage
 SSR-safe hooks to enable easy access/manipulation of local and session storage APIs.
 
 **Usage**
+
 `const [storedValue: Object|string|number|null, setValue: (Function|string|null) => void, deleteValue: () => void] = useLocalStorage(key: string, initialValue: unknown, saveInitial: boolean = false`
 
 *Arguments*
@@ -50,12 +54,14 @@ SSR-safe hooks to enable easy access/manipulation of local and session storage A
 Simple hook which mounts a div *alongside* the React root, ideal for implementing dialogs or other elements meant to block the entire viewport. Takes an `id` which is set on the resulting element.
 
 **Usage**
+
 `const portal: HTMLDivElement = usePortal(id: string)`
 
 ### useTimeout
 Another simple hook which enables easy use of timeouts.
 
 **Usage**
+
 `const cancel: () => void = useTimeout(callback: () => void, delay: number)`
 
 *Arguments*
@@ -70,6 +76,7 @@ Another simple hook which enables easy use of timeouts.
 This hook is meant to easily return details about the browser window. Value changes are currently bound to resize events. We use traditional event listeners instead of a [ResizeObserver](https://developer.mozilla.org/en-US/docs/Web/API/ResizeObserver) because the hook was built to observe the window's *outer* dimentions and position. The highest we can observe with ResizeObserver is `document.body` which will leave us miscalculating due to scrollbars, other window chrome like the address bar, etc.
 
 **Usage**
+
 `const { size: { height: number|undefined, width: number|undefined }, position: { top: number|undefined, left: number|undefined }} = useWindowDetails()`
 
 *Returned API*
