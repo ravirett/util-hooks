@@ -84,7 +84,79 @@ describe('Session Storage hook basic functionality', () => {
       expect(console.error).toHaveBeenCalledWith(error);
     });
     console.error = origError;
-  })
+  });
+
+  describe('Quota exceeded error handling', () => {
+    let origError: typeof console.error;
+    let origWarn: typeof console.warn;
+    let originalSetItem: typeof window.localStorage.setItem;
+
+    beforeEach(() => {
+      origError = console.error;
+      origWarn = console.warn;
+      console.error = jest.fn();
+      console.warn = jest.fn();
+      originalSetItem = window.localStorage.setItem;
+    });
+
+    afterEach(() => {
+      console.error = origError;
+      console.warn = origWarn;
+      window.localStorage.setItem = originalSetItem;
+    });
+
+    test('Handles Chrome quota exceeded error (code 22)', async () => {
+      // Mock Chrome's quota exceeded error
+      const mockError = new DOMException('Quota exceeded', 'QuotaExceededError');
+      Object.defineProperty(mockError, 'code', { value: 22 });
+
+      window.localStorage.setItem = jest.fn().mockImplementation(() => {
+        throw mockError;
+      });
+
+      render(<TestWrapper newValue="valueExceedingQuota" />);
+      userEvent.click(screen.getByTestId('submitButton'));
+
+      await waitFor(() => {
+        expect(console.error).toHaveBeenCalled();
+        expect(console.warn).toHaveBeenCalledWith('localStorage quota exceeded');
+      });
+    });
+
+    test('Handles Safari quota exceeded error (QuotaExceededError)', async () => {
+      // Mock Safari's quota exceeded error
+      const mockError = new DOMException('Quota exceeded', 'QuotaExceededError');
+
+      window.localStorage.setItem = jest.fn().mockImplementation(() => {
+        throw mockError;
+      });
+
+      render(<TestWrapper newValue="valueExceedingQuota" />);
+      userEvent.click(screen.getByTestId('submitButton'));
+
+      await waitFor(() => {
+        expect(console.error).toHaveBeenCalled();
+        expect(console.warn).toHaveBeenCalledWith('localStorage quota exceeded');
+      });
+    });
+
+    test('Handles Firefox quota exceeded error (NS_ERROR_DOM_QUOTA_REACHED)', async () => {
+      // Mock Firefox's alternate quota exceeded error
+      const mockError = new DOMException('Quota exceeded', 'NS_ERROR_DOM_QUOTA_REACHED');
+
+      window.localStorage.setItem = jest.fn().mockImplementation(() => {
+        throw mockError;
+      });
+
+      render(<TestWrapper newValue="valueExceedingQuota" />);
+      userEvent.click(screen.getByTestId('submitButton'));
+
+      await waitFor(() => {
+        expect(console.error).toHaveBeenCalled();
+        expect(console.warn).toHaveBeenCalledWith('localStorage quota exceeded');
+      });
+    });
+  });
 
   test('clearValue', async () => {
     render(<TestWrapper initialValue="storedValue" />);
@@ -141,8 +213,7 @@ describe('Session Storage hook basic functionality', () => {
       url: { value: window.location.href }
     });
 
-    // Dispatch the event to document.body where the hook is listening
-    document.body.dispatchEvent(customEvent);
+    window.dispatchEvent(customEvent);
 
     await waitFor(() => {
       expect(screen.getByTestId(/sessionValue/i)).toHaveTextContent('eventValue');

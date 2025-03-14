@@ -34,7 +34,7 @@ SSR-safe hooks to enable easy access/manipulation of local and session storage A
 
 **Usage**
 
-`const [storedValue: Object|string|number|null, setValue: (Function|string|null) => void, deleteValue: () => void] = useLocalStorage(key: string, initialValue: unknown, saveInitial: boolean = false`
+`const [storedValue: Object|string|number|null, setValue: (Function|string|null) => void, deleteValue: () => void] = useLocalStorage<T>(key: string, initialValue: T | (() => T), saveInitial: boolean = false`
 
 *Arguments*
 >`key` is the key name of the storage entry
