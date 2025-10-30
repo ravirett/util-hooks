@@ -1,6 +1,6 @@
 {
   "name": "util-hooks",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "homepage": "https://github.com/ravirett/util-hooks#readme",
   "bugs": "https://github.com/ravirett/util-hooks/issues",
   "license": "MPL-2.0",
@@ -13,7 +13,8 @@
     "clean": "rm -fr dist/* build/*",
     "compile": "tsc -p tsconfig.json && tsc -p tsconfig-cjs.json",
     "minify": "esbuild ./build/mjs/index.js --bundle --minify --outfile=./dist/mjs/index.min.js && esbuild ./build/cjs/index.js --bundle --minify --outfile=./dist/cjs/index.min.js",
-    "build": "pnpm clean && pnpm compile && ./gen-dist-pkgs && pnpm minify",
+    "types:build": "mkdir -p dist && cp ./build/mjs/index.d.ts ./dist/index.d.ts",
+    "build": "pnpm clean && pnpm compile && ./gen-dist-pkgs && pnpm minify && pnpm types:build",
     "test": "jest --coverage",
     "typesync": "npx typesync"
   },
@@ -53,10 +54,15 @@
   "packageManager": "pnpm@10.6.2+sha512.47870716bea1572b53df34ad8647b42962bc790ce2bf4562ba0f643237d7302a3d6a8ecef9e4bdfc01d23af1969aa90485d4cebb0b9638fa5ef1daef656f6c1b",
   "main": "dist/cjs/index.min.js",
   "module": "dist/mjs/index.min.js",
+  "types": "dist/index.d.ts",
   "exports": {
     ".": {
+      "types": "./dist/index.d.ts",
       "import": "./dist/mjs/index.min.js",
       "require": "./dist/cjs/index.min.js"
     }
-  }
+  },
+  "files": [
+    "dist/**/*"
+  ]
 }
