@@ -12,7 +12,7 @@
   "scripts": {
     "clean": "rm -fr dist/* build/*",
     "compile": "tsc -p tsconfig.json && tsc -p tsconfig-cjs.json",
-    "minify": "esbuild ./build/mjs/index.js --bundle --format=esm --platform=neutral --target=es2020 --minify --outfile=./dist/mjs/index.min.js && esbuild ./build/cjs/index.js --bundle --format=cjs --platform=node --target=node18 --minify --outfile=./dist/cjs/index.min.js",
+    "minify": "esbuild ./build/mjs/index.js --bundle --format=esm --platform=neutral --target=es2020 --external:react --external:react-dom --external:react/jsx-runtime --minify --outfile=./dist/mjs/index.min.js && esbuild ./build/cjs/index.js --bundle --format=cjs --platform=node --target=node18 --external:react --external:react-dom --external:react/jsx-runtime --minify --outfile=./dist/cjs/index.min.js",
     "types:build": "mkdir -p dist && cp ./build/mjs/index.d.ts ./dist/index.d.ts",
     "build": "pnpm clean && pnpm compile && ./gen-dist-pkgs && pnpm minify && pnpm types:build",
     "prepare": "pnpm build",
